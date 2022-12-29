@@ -10,10 +10,13 @@ folder_check(){
 
   if [ -n "$(ls -A $FOLDER )" ]
   then
+    echo "--------------------------"
+    date
     echo "New downloads in "$FOLDER
     echo "Moving "$(ls -A $FOLDER)
     mv $FOLDER/* $TO_FOLDER/
-    docker exec -it plex /usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan -c $PLEX_SCAN_CODE
+    #docker exec -i plex /usr/lib/plexmediaserver/Plex\ Media\ Scanner --scan -c $PLEX_SCAN_CODE
+    curl -s -G -H "X-Plex-Token: $PLEX_TOKEN" http://localhost:32400/library/sections/$PLEX_SCAN_CODE/refresh
   fi
 }
 
